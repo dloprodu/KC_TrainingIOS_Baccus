@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		630F4F941F8845FF00F44F86 /* zarate.gif in Resources */ = {isa = PBXBuildFile; fileRef = 630F4F921F8845FE00F44F86 /* zarate.gif */; };
+		630F4F951F8845FF00F44F86 /* comtesDeChampagne.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 630F4F931F8845FF00F44F86 /* comtesDeChampagne.jpg */; };
 		638AD8791F856CF600ACB7DC /* SQAWineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 638AD8771F856CF600ACB7DC /* SQAWineViewController.m */; };
 		638AD87A1F856CF600ACB7DC /* SQAWineViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 638AD8781F856CF600ACB7DC /* SQAWineViewController.xib */; };
 		638AD8851F85930900ACB7DC /* bembibre.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 638AD8841F85930900ACB7DC /* bembibre.jpg */; };
@@ -20,6 +22,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		630F4F921F8845FE00F44F86 /* zarate.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = zarate.gif; sourceTree = "<group>"; };
+		630F4F931F8845FF00F44F86 /* comtesDeChampagne.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = comtesDeChampagne.jpg; sourceTree = "<group>"; };
 		638AD8761F856CF600ACB7DC /* SQAWineViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SQAWineViewController.h; sourceTree = "<group>"; };
 		638AD8771F856CF600ACB7DC /* SQAWineViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SQAWineViewController.m; sourceTree = "<group>"; };
 		638AD8781F856CF600ACB7DC /* SQAWineViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SQAWineViewController.xib; sourceTree = "<group>"; };
@@ -65,6 +69,8 @@
 		638AD87D1F85897E00ACB7DC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				630F4F931F8845FF00F44F86 /* comtesDeChampagne.jpg */,
+				630F4F921F8845FE00F44F86 /* zarate.gif */,
 				638AD8861F8593B100ACB7DC /* splitView_score_glass@2x.png */,
 				638AD8841F85930900ACB7DC /* bembibre.jpg */,
 			);
@@ -170,10 +176,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				638AD8871F8593B100ACB7DC /* splitView_score_glass@2x.png in Resources */,
+				630F4F951F8845FF00F44F86 /* comtesDeChampagne.jpg in Resources */,
 				63CC5EB11F843CE800176AE3 /* Assets.xcassets in Resources */,
 				638AD8851F85930900ACB7DC /* bembibre.jpg in Resources */,
 				638AD87A1F856CF600ACB7DC /* SQAWineViewController.xib in Resources */,
 				63DF93931F85A2F10034603E /* SQAWebViewController.xib in Resources */,
+				630F4F941F8845FF00F44F86 /* zarate.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
