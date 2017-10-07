@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SQAWineModel.h"
 
-@interface SQAWineViewController : UIViewController
+@interface SQAWineViewController : UIViewController<UISplitViewControllerDelegate>
 
 #pragma mark - Properties
 

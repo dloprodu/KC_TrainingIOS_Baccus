@@ -49,6 +49,33 @@
     [super viewDidDisappear:animated];
 }
 
+#pragma mark - UISplitViewControllerDelegate
+
+-(void)splitViewController:(UISplitViewController *)svc
+   willChangeToDisplayMode:(UISplitViewControllerDisplayMode)displayMode {
+    switch (displayMode) {
+        // The split view controller automatically decides the most appropriate
+        // display mode based on the device and the current app size.
+        case UISplitViewControllerDisplayModeAutomatic:
+            break;
+            
+        // The primary view controller is hidden.
+        case UISplitViewControllerDisplayModePrimaryHidden:
+            self.navigationItem.leftBarButtonItem = svc.displayModeButtonItem;
+            break;
+            
+        // The primary and secondary view controllers are displayed side-by-side onscreen.
+        case UISplitViewControllerDisplayModeAllVisible:
+            self.navigationItem.leftBarButtonItem = nil;
+            break;
+            
+        // The primary view controller is layered on top of the secondary
+        // view controller, leaving the secondary view controller partially visible.
+        case UISplitViewControllerDisplayModePrimaryOverlay:
+            break;
+    }
+}
+
 #pragma mark - Actions
 
 -(IBAction)displayWeb:(id)sender {

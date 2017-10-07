@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "SQAWineryTableViewController.h"
+#import "SQAWineViewController.h"
 #import "SQAWineryModel.h"
 
 
@@ -27,19 +28,30 @@
     
     SQAWineryModel *model = [[SQAWineryModel alloc] init];
     
-    // Creamos el controlador
-    SQAWineryTableViewController *wineryVC = [[SQAWineryTableViewController alloc] initWithModel:model
-                                                                                           style:UITableViewStylePlain];
-
-    // Creamos el combinador
-    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:wineryVC];
-    navVC.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-    navVC.navigationBar.backgroundColor = [UIColor colorWithRed:0.5
+    SQAWineryTableViewController *wineryVC = [[SQAWineryTableViewController alloc] initWithModel:model style:UITableViewStylePlain];
+    SQAWineViewController *wineVC = [[SQAWineViewController alloc] initWithModel:[model redWineAtIndex:0]];
+    
+    UINavigationController *sideVC = [[UINavigationController alloc] initWithRootViewController:wineryVC];
+    sideVC.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    sideVC.navigationBar.backgroundColor = [UIColor colorWithRed:0.5
+                                                          green:0
+                                                           blue:0.13
+                                                          alpha:1];
+    UINavigationController *mainVC = [[UINavigationController alloc] initWithRootViewController:wineVC];
+    mainVC.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    mainVC.navigationBar.backgroundColor = [UIColor colorWithRed:0.5
                                                           green:0
                                                            blue:0.13
                                                           alpha:1];
     
-    self.window.rootViewController = navVC;
+
+    // Creamos el controlador
+    UISplitViewController *splitVC = [[UISplitViewController alloc] init];
+    [splitVC setViewControllers:@[sideVC, mainVC]];
+    [splitVC setDelegate:wineVC];
+    [splitVC setPreferredDisplayMode:UISplitViewControllerDisplayModeAutomatic];
+    
+    self.window.rootViewController = splitVC;
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
