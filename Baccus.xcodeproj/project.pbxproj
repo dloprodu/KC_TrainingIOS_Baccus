@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		630F4F941F8845FF00F44F86 /* zarate.gif in Resources */ = {isa = PBXBuildFile; fileRef = 630F4F921F8845FE00F44F86 /* zarate.gif */; };
 		630F4F951F8845FF00F44F86 /* comtesDeChampagne.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 630F4F931F8845FF00F44F86 /* comtesDeChampagne.jpg */; };
+		630F4F981F8946FD00F44F86 /* SQAWineryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 630F4F971F8946FD00F44F86 /* SQAWineryModel.m */; };
 		638AD8791F856CF600ACB7DC /* SQAWineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 638AD8771F856CF600ACB7DC /* SQAWineViewController.m */; };
 		638AD87A1F856CF600ACB7DC /* SQAWineViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 638AD8781F856CF600ACB7DC /* SQAWineViewController.xib */; };
 		638AD8851F85930900ACB7DC /* bembibre.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 638AD8841F85930900ACB7DC /* bembibre.jpg */; };
@@ -24,6 +25,8 @@
 /* Begin PBXFileReference section */
 		630F4F921F8845FE00F44F86 /* zarate.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = zarate.gif; sourceTree = "<group>"; };
 		630F4F931F8845FF00F44F86 /* comtesDeChampagne.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = comtesDeChampagne.jpg; sourceTree = "<group>"; };
+		630F4F961F8946FD00F44F86 /* SQAWineryModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SQAWineryModel.h; sourceTree = "<group>"; };
+		630F4F971F8946FD00F44F86 /* SQAWineryModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SQAWineryModel.m; sourceTree = "<group>"; };
 		638AD8761F856CF600ACB7DC /* SQAWineViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SQAWineViewController.h; sourceTree = "<group>"; };
 		638AD8771F856CF600ACB7DC /* SQAWineViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SQAWineViewController.m; sourceTree = "<group>"; };
 		638AD8781F856CF600ACB7DC /* SQAWineViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SQAWineViewController.xib; sourceTree = "<group>"; };
@@ -82,6 +85,8 @@
 			children = (
 				63CC5EE71F844DEE00176AE3 /* SQAWineModel.h */,
 				63CC5EE81F844DEE00176AE3 /* SQAWineModel.m */,
+				630F4F961F8946FD00F44F86 /* SQAWineryModel.h */,
+				630F4F971F8946FD00F44F86 /* SQAWineryModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -197,6 +202,7 @@
 				63DF93921F85A2F10034603E /* SQAWebViewController.m in Sources */,
 				638AD8791F856CF600ACB7DC /* SQAWineViewController.m in Sources */,
 				63CC5EAF1F843CE800176AE3 /* AppDelegate.m in Sources */,
+				630F4F981F8946FD00F44F86 /* SQAWineryModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
