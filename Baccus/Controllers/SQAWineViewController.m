@@ -15,7 +15,7 @@
 
 @implementation SQAWineViewController
 
-#pragma mark - Initializers
+#pragma mark - Designated Initializer
 
 -(id) initWithModel: (SQAWineModel *) model {
     if (self = [super initWithNibName:nil bundle:nil]) {
@@ -24,6 +24,8 @@
     }
     return self;
 }
+
+#pragma mark - View Lifecycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -40,7 +42,7 @@
     
     [self syncModelWithView];
     
-    self.navigationController.navigationBar.backgroundColor = [UIColor colorWithRed:0.5 green:0 blue:0.13 alpha:1];
+    //self.navigationController.navigationBar.backgroundColor = [UIColor colorWithRed:0.5 green:0 blue:0.13 alpha:1];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {

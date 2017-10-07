@@ -32,7 +32,7 @@
     return [self.otherWines count];
 }
 
-#pragma mark - Initializers
+#pragma mark - Designated Initializer
 
 -(id)init {
     if (self = [super init]) {
@@ -40,7 +40,7 @@
                                                        type:@"tinto"
                                                       photo:[UIImage imageNamed:@"bembibre.jpg"]
                                             wineCompanyName:@"Dominio de Tares"
-                                             wineCompanyWeb:[NSURL URLWithString:@"https://www.dominiodetares.com/index.php/es/vinos/baltos/74-bembibrevinos"]
+                                             wineCompanyWeb:[NSURL URLWithString:@"https://www.dominiodetares.com"]
                                                       notes:@"Este vino muestra toda la complejidad y la elegancia de la variedad Mencía. En fase visual luce un color rojo picota muy cubierto con tonalidades violáceas en el menisco. En nariz aparecen recuerdos frutales muy intensos de frutas rojas (frambuesa, cereza) y una potente ciruela negra, así como tonos florales de la gama de las rosas y violetas, vegetales muy elegantes y complementarios, hojarasca verde, tabaco y maderas aromáticas (sándalo) que le brindan un toque ciertamente perfumado."
                                                      origin:@"El Bierzo"
                                                      rating:5
@@ -50,7 +50,7 @@
                                                         type:@"white"
                                                        photo:[UIImage imageNamed:@"zarate.gif"]
                                              wineCompanyName:@"Zárate"
-                                              wineCompanyWeb:[NSURL URLWithString:@"http://www.albarino-zarate.com"]
+                                              wineCompanyWeb:[NSURL URLWithString:@"http://bodegas-zarate.com"]
                                                        notes:@"El albariño Zarate es un vino blanco monovarietal que pertenece a la Denominación de Origen Rías Baixas. Considerado por la crítica especializada como uno de los grandes vinos blancos del mundo, el albariño ya es todo un mito."
                                                       origin:@"Rias Bajas"
                                                       rating:4
@@ -76,15 +76,15 @@
 
 #pragma mark - Methods
 
--(SQAWineModel*) redWineAtIndex: (int) index {
+-(SQAWineModel*) redWineAtIndex: (NSInteger) index {
     return [self.redWines objectAtIndex:index];
 }
 
--(SQAWineModel*) whiteWineAtIndex: (int) index {
+-(SQAWineModel*) whiteWineAtIndex: (NSInteger) index {
     return [self.whiteWines objectAtIndex:index];
 }
 
--(SQAWineModel*) otherWineAtIndex: (int) index {
+-(SQAWineModel*) otherWineAtIndex: (NSInteger) index {
     return [self.otherWines objectAtIndex:index];
 }
 

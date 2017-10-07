@@ -14,6 +14,8 @@
 
 @implementation SQAWebViewController
 
+#pragma mark - Designated Initializer
+
 -(id) initWithModel: (SQAWineModel *) model {
     if (self = [super initWithNibName:nil bundle:nil]) {
         _model = model;
@@ -22,6 +24,8 @@
     
     return self;
 }
+
+#pragma mark - View Lifecycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -49,7 +53,7 @@
     [self.browser loadRequest:[NSURLRequest requestWithURL:url]];
 }
 
-#pragma mark - UIWebViewDelegate
+#pragma mark - UIWebView Delegate
 
 -(void)webViewDidFinishLoad:(UIWebView *)webView {
     [self.activityView stopAnimating];

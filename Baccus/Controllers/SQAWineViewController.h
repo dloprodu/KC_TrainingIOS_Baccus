@@ -11,6 +11,8 @@
 
 @interface SQAWineViewController : UIViewController
 
+#pragma mark - Properties
+
 @property (weak, nonatomic) IBOutlet UIImageView *photoView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *companyLabel;
@@ -22,7 +24,11 @@
 
 @property (strong, nonatomic) SQAWineModel *model;
 
+#pragma mark - Designated Initializer
+
 -(id) initWithModel: (SQAWineModel *) model;
+
+#pragma mark - Actions
 
 -(IBAction)displayWeb:(id)sender;
 

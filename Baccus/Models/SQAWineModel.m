@@ -12,7 +12,7 @@
 
 @implementation SQAWineModel
 
-#pragma mark - Constructores de conveniencia
+#pragma mark - Convenience constructors
 
 +(id) wineWithName: (NSString *) name
               type: (NSString *) type
@@ -46,9 +46,8 @@
                                origin:origin];
 }
 
-#pragma mark - Init
+#pragma mark - Designated Initalizers
 
-// Designado
 -(id) initWithName: (NSString *) name
               type: (NSString *) type
              photo: (UIImage *) photo
@@ -73,6 +72,8 @@
     
     return self;
 }
+
+#pragma mark - Convenience Initializers
 
 -(id) initWithName: (NSString *) name
               type: (NSString *) type

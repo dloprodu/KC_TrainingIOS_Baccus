@@ -11,9 +11,13 @@
 
 @interface SQAWebViewController : UIViewController <UIWebViewDelegate>
 
+#pragma mark - Properties
+
 @property (strong, nonatomic) SQAWineModel *model;
 @property (weak, nonatomic) IBOutlet UIWebView *browser;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityView;
+
+#pragma mark - Designated Initializer
 
 -(id) initWithModel: (SQAWineModel *) model;
 

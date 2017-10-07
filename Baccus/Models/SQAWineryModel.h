@@ -11,12 +11,16 @@
 
 @interface SQAWineryModel : NSObject
 
+#pragma mark - Properties
+
 @property (readonly, nonatomic) NSUInteger redWineCount;
 @property (readonly, nonatomic) NSUInteger whiteWineCount;
-@property (readonly, nonatomic) NSUInteger otherWineWineCount;
+@property (readonly, nonatomic) NSUInteger otherWineCount;
 
--(SQAWineModel*) redWineAtIndex: (int) index;
--(SQAWineModel*) whiteWineAtIndex: (int) index;
--(SQAWineModel*) otherWineAtIndex: (int) index;
+#pragma mark - Methods
+
+-(SQAWineModel*) redWineAtIndex: (NSInteger) index;
+-(SQAWineModel*) whiteWineAtIndex: (NSInteger) index;
+-(SQAWineModel*) otherWineAtIndex: (NSInteger) index;
 
 @end

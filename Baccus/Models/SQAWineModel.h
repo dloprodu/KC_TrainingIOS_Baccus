@@ -21,9 +21,8 @@
 @property (nonatomic) int rating; // 1..5
 @property (strong, nonatomic) NSArray *grapes;
 
-// Métodos de clase
+#pragma mark - Convenience Constructors
 
-// Constructores de conveniencia
 +(id) wineWithName: (NSString *) name
               type: (NSString *) type
              photo: (UIImage *) photo
@@ -39,9 +38,8 @@
    wineCompanyName: (NSString *) wineCompanyName
             origin: (NSString *) origin;
 
-// Métodos de instancia
+#pragma mark - Designated Initializer
 
-// Inicializador Designado
 -(id) initWithName: (NSString *) name
               type: (NSString *) type
              photo: (UIImage *) photo
@@ -52,7 +50,8 @@
             rating: (int) rating
             grapes: (NSArray *) grapes;
 
-// Inicializador de conveniencia
+#pragma mark - Convenience Initializers
+
 -(id) initWithName: (NSString *) name
               type: (NSString *) type
    wineCompanyName: (NSString *) wineCompanyName
