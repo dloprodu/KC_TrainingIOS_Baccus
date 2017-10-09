@@ -8,6 +8,8 @@
 
 #import "SQAWineryTableViewController.h"
 #import "SQAWineViewController.h"
+#import "SQAWineModel.h"
+#import "SQAWineryModel.h"
 
 @interface SQAWineryTableViewController ()
 
@@ -149,14 +151,21 @@ titleForHeaderInSection:(NSInteger)section
 // In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
 - (void)tableView:(UITableView *)tableView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Suponemos que estamos en un UINavitagionViewController
     SQAWineModel *wine = [self wineAtIndexPath:indexPath];
     
-    SQAWineViewController *wineVC = [[SQAWineViewController alloc] initWithModel:wine];
-    
+    // Option 1: Suponemos que estamos en un UINavitagionViewController
     // Push the view controller.
-    [self.navigationController pushViewController:wineVC
-                                         animated:YES];
+    // SQAWineViewController *wineVC = [[SQAWineViewController alloc] initWithModel:wine];
+    // [self.navigationController pushViewController:wineVC animated:YES];
+    
+    // Usually we send the message through delegate and a notification.
+    // Option 2: Send message to delegate
+    [self.delegate wineryTableViewController:self didSelectWine:wine];
+    
+    NSNotification *notification = [NSNotification notificationWithName:NEW_WINE_NOTIFICATION_NAME
+                                                                 object:self
+                                                               userInfo:@{WINE_KEY: wine}];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 
 /*

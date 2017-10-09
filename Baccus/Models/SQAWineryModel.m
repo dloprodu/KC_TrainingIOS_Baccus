@@ -6,6 +6,7 @@
 //  Copyright © 2017 David López Rodriguez. All rights reserved.
 //
 
+#import "SQAWineModel.h"
 #import "SQAWineryModel.h"
 
 @interface SQAWineryModel ()

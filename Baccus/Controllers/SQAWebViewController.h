@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SQAWineModel.h"
+
+@class SQAWineModel;
 
 @interface SQAWebViewController : UIViewController <UIWebViewDelegate>
 

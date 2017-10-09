@@ -6,6 +6,7 @@
 //  Copyright © 2017 David López Rodriguez. All rights reserved.
 //
 
+#import "SQAWineModel.h"
 #import "SQAWineViewController.h"
 #import "SQAWebViewController.h"
 
@@ -137,5 +138,14 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+#pragma mark - WineryTableViewControllerDelegate
+
+-(void) wineryTableViewController:(SQAWineryTableViewController *)wineryVC
+                    didSelectWine:(SQAWineModel *)wine {
+    self.model = wine;
+    
+    [self syncModelWithView];
+}
 
 @end

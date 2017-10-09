@@ -45,6 +45,8 @@
                                                           alpha:1];
     
 
+    [wineryVC setDelegate:wineVC];
+    
     // Creamos el controlador
     UISplitViewController *splitVC = [[UISplitViewController alloc] init];
     [splitVC setViewControllers:@[sideVC, mainVC]];

@@ -7,17 +7,32 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SQAWineryModel.h"
 
-#define RED_WINE_SECTION 0
+#define RED_WINE_SECTION   0
 #define WHITE_WINE_SECTION 1
 #define OTHER_WINE_SECTION 2
+#define NEW_WINE_NOTIFICATION_NAME @"newWine"
+#define WINE_KEY @"wine"
 
+// Declaraciones adelantadas
+@class SQAWineModel;
+@class SQAWineryModel;
+@class SQAWineryTableViewController;
+
+// Delgado
+@protocol WineryTableViewControllerDelegate <NSObject>
+
+-(void)wineryTableViewController: (SQAWineryTableViewController *) wineryVC didSelectWine: (SQAWineModel *) wine;
+
+@end
+
+// ViewController
 @interface SQAWineryTableViewController : UITableViewController
 
 #pragma mark - Properties
 
 @property (strong, nonatomic) SQAWineryModel *model;
+@property (weak, nonatomic) id<WineryTableViewControllerDelegate> delegate;
 
 #pragma mark - Designated Initializer
 

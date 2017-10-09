@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SQAWineModel.h"
+
+@class SQAWineModel;
 
 @interface SQAWineryModel : NSObject
 

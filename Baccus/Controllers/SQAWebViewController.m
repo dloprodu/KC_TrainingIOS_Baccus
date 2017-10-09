@@ -7,6 +7,8 @@
 //
 
 #import "SQAWebViewController.h"
+#import "SQAWineryTableViewController.h"
+#import "SQAWineModel.h"
 
 @interface SQAWebViewController ()
 
@@ -41,9 +43,29 @@
     [super viewWillAppear:animated];
     
     [self displayURL: self.model.wineCompanyWeb];
+    
+    // Notification subscription
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self
+               selector:@selector(wineDidChange:)
+                   name:NEW_WINE_NOTIFICATION_NAME
+                 object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    // Notification unsubscription
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Helpers
+
+-(void) wineDidChange: (NSNotification *) notification {
+    self.model = [[notification userInfo] objectForKey:WINE_KEY];
+    
+    [self displayURL: [self.model wineCompanyWeb]];
+}
 
 -(void) displayURL: (NSURL*) url {
     [self.activityView setHidden: NO];

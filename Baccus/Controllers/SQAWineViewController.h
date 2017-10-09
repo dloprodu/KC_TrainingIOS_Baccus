@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SQAWineModel.h"
+#import "SQAWineryTableViewController.h"
 
-@interface SQAWineViewController : UIViewController<UISplitViewControllerDelegate>
+@class SQAWineModel;
+
+@interface SQAWineViewController : UIViewController<UISplitViewControllerDelegate, WineryTableViewControllerDelegate>
 
 #pragma mark - Properties
 
