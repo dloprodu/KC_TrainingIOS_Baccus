@@ -29,7 +29,7 @@
     SQAWineryModel *model = [[SQAWineryModel alloc] init];
     
     SQAWineryTableViewController *wineryVC = [[SQAWineryTableViewController alloc] initWithModel:model style:UITableViewStylePlain];
-    SQAWineViewController *wineVC = [[SQAWineViewController alloc] initWithModel:[model redWineAtIndex:0]];
+    SQAWineViewController *wineVC = [[SQAWineViewController alloc] initWithModel:[wineryVC lastSelectedWine]];
     
     UINavigationController *sideVC = [[UINavigationController alloc] initWithRootViewController:wineryVC];
     sideVC.navigationBar.barStyle = UIBarStyleBlackTranslucent;

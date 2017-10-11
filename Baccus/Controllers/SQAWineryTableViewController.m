@@ -50,6 +50,30 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Methods
+
+-(void) saveLastSelectedWineAtSection:(NSUInteger)section row:(NSUInteger)row {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:@{SECTION_KEY : @(section), ROW_KEY : @(row)} forKey:LAST_WINE_KEY];
+    [defaults synchronize];
+}
+
+-(SQAWineModel *) lastSelectedWine {
+    NSIndexPath *indexPath = nil;
+    NSDictionary *coords = nil;
+    
+    coords = [[NSUserDefaults standardUserDefaults] objectForKey:LAST_WINE_KEY];
+    
+    if (coords == nil) {
+        coords = [self setDefaults];
+    }
+    
+    indexPath = [NSIndexPath indexPathForRow:[[coords objectForKey: ROW_KEY] integerValue]
+                                   inSection:[[coords objectForKey: SECTION_KEY] integerValue]];
+    
+    return [self wineAtIndexPath: indexPath];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -162,6 +186,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     // Option 2: Send message to delegate
     [self.delegate wineryTableViewController:self didSelectWine:wine];
     
+    [self saveLastSelectedWineAtSection:indexPath.section row:indexPath.row];
+    
     NSNotification *notification = [NSNotification notificationWithName:NEW_WINE_NOTIFICATION_NAME
                                                                  object:self
                                                                userInfo:@{WINE_KEY: wine}];
@@ -194,6 +220,16 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
             break;
     }
     return wine;
+}
+
+-(NSDictionary *)setDefaults {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *defaultWineCoords = @{SECTION_KEY : @(RED_WINE_SECTION), ROW_KEY : @0};
+    
+    [defaults setObject:defaultWineCoords forKey:LAST_WINE_KEY];
+    [defaults synchronize];
+    
+    return defaultWineCoords;
 }
 
 @end
