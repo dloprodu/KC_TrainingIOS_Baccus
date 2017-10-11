@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+#define RED_WINE_KEY    @"Tinto"
+#define WHITE_WINE_KEY  @"Blanco"
+#define OTHER_WINE_KEY  @"Rosado"
+
 @class SQAWineModel;
 
 @interface SQAWineryModel : NSObject

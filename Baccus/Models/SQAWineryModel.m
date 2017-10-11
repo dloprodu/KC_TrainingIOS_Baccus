@@ -11,9 +11,9 @@
 
 @interface SQAWineryModel ()
 
-@property (strong, nonatomic) NSArray *redWines;
-@property (strong, nonatomic) NSArray *whiteWines;
-@property (strong, nonatomic) NSArray *otherWines;
+@property (strong, nonatomic) NSMutableArray *redWines;
+@property (strong, nonatomic) NSMutableArray *whiteWines;
+@property (strong, nonatomic) NSMutableArray *otherWines;
 
 @end
 
@@ -37,6 +37,7 @@
 
 -(id)init {
     if (self = [super init]) {
+        /*
         SQAWineModel *tintorro = [SQAWineModel wineWithName:@"Bembibre"
                                                        type:@"tinto"
                                                       photo:[UIImage imageNamed:@"bembibre.jpg"]
@@ -70,6 +71,65 @@
         _redWines = @[tintorro];
         _whiteWines = @[albarinno];
         _otherWines = @[champagne];
+        */
+        
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://baccusapp.herokuapp.com/wines"]];
+        [[[NSURLSession sharedSession] dataTaskWithRequest:request
+                                         completionHandler:^(NSData * data, NSURLResponse * response, NSError * error) {
+            
+            //NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+            //NSInteger statusCode = httpResponse.statusCode;
+            //if (statusCode >= 200 && statusCode < 300)
+            
+            if (data != nil) {
+                // No ha habido error
+                NSArray * JSONObjects = [NSJSONSerialization JSONObjectWithData:data
+                                                                        options:kNilOptions
+                                                                          error:&error];
+                
+                if (JSONObjects != nil) {
+                    // No ha habido error
+                    for(NSDictionary *dict in JSONObjects){
+                        SQAWineModel *wine = [[SQAWineModel alloc] initWithDictionary:dict];
+                        
+                        // Añadimos al tipo adecuado
+                        if ([wine.type isEqualToString:RED_WINE_KEY]) {
+                            if (!self.redWines) {
+                                self.redWines = [NSMutableArray arrayWithObject:wine];
+                            }
+                            else {
+                                [self.redWines addObject:wine];
+                            }
+                        }
+                        else if ([wine.type isEqualToString:WHITE_WINE_KEY]) {
+                            if (!self.whiteWines) {
+                                self.whiteWines = [NSMutableArray arrayWithObject:wine];
+                            }
+                            else {
+                                [self.whiteWines addObject:wine];
+                            }
+                        }
+                        else {
+                            if (!self.otherWines) {
+                                self.otherWines = [NSMutableArray arrayWithObject:wine]; //fix/11a
+                            }
+                            else {
+                                [self.otherWines addObject:wine]; //fix/11a
+                            }
+                        }
+                    }
+                }
+                else{
+                    // Se ha producido un error al parsear el JSON
+                    NSLog(@"Error al parsear JSON: %@", error.localizedDescription);
+                }
+            }
+            else{
+                // Error al descargar los datos del servidor
+                NSLog(@"Error al descargar datos del servidor: %@", error.localizedDescription);
+            }
+            
+        }] resume];
     }
     
     return self;

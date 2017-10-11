@@ -13,25 +13,28 @@
 
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *type;
-@property (strong, nonatomic) UIImage *photo;
+@property (strong, nonatomic) NSURL *photoURL;
 @property (strong, nonatomic) NSString *wineCompanyName;
 @property (strong, nonatomic) NSURL *wineCompanyWeb;
 @property (strong, nonatomic) NSString *notes;
 @property (strong, nonatomic) NSString *origin;
 @property (nonatomic) int rating; // 1..5
-@property (strong, nonatomic) NSArray *grapes;
+@property (strong, nonatomic) NSArray<NSString *> *grapes;
+
+//@property (strong, nonatomic, readonly) UIImage *photo;
+@property (strong, nonatomic) UIImage *photo;
 
 #pragma mark - Convenience Constructors
 
 +(id) wineWithName: (NSString *) name
               type: (NSString *) type
-             photo: (UIImage *) photo
+          photoURL: (NSURL *) photoURL
    wineCompanyName: (NSString *) wineCompanyName
     wineCompanyWeb: (NSURL *) wineCompanyWeb
              notes: (NSString *) notes
             origin: (NSString *) origin
             rating: (int) rating
-            grapes: (NSArray *) grapes;
+            grapes: (NSArray<NSString *> *) grapes;
 
 +(id) wineWithName: (NSString *) name
               type: (NSString *) type
@@ -42,13 +45,13 @@
 
 -(id) initWithName: (NSString *) name
               type: (NSString *) type
-             photo: (UIImage *) photo
+          photoURL: (NSURL *) photoURL
    wineCompanyName: (NSString *) wineCompanyName
     wineCompanyWeb: (NSURL *) wineCompanyWeb
              notes: (NSString *) notes
             origin: (NSString *) origin
             rating: (int) rating
-            grapes: (NSArray *) grapes;
+            grapes: (NSArray<NSString *> *) grapes;
 
 #pragma mark - Convenience Initializers
 
@@ -57,5 +60,7 @@
    wineCompanyName: (NSString *) wineCompanyName
             origin: (NSString *) origin;
 
+-(id) initWithDictionary:(NSDictionary *) dic;
 
+-(NSDictionary*) proxyForJSON;
 @end
