@@ -41,6 +41,11 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    if (self.splitViewController.displayMode == UISplitViewControllerDisplayModePrimaryHidden){
+        self.navigationItem.rightBarButtonItem = self.splitViewController.displayModeButtonItem;
+        self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone;
+    }
+    
     [self syncModelWithView];
     
     //self.navigationController.navigationBar.backgroundColor = [UIColor colorWithRed:0.5 green:0 blue:0.13 alpha:1];
@@ -62,12 +67,12 @@
             
         // The primary view controller is hidden.
         case UISplitViewControllerDisplayModePrimaryHidden:
-            self.navigationItem.leftBarButtonItem = svc.displayModeButtonItem;
+            self.navigationItem.rightBarButtonItem = svc.displayModeButtonItem;
             break;
             
         // The primary and secondary view controllers are displayed side-by-side onscreen.
         case UISplitViewControllerDisplayModeAllVisible:
-            self.navigationItem.leftBarButtonItem = nil;
+            self.navigationItem.rightBarButtonItem = nil;
             break;
             
         // The primary view controller is layered on top of the secondary

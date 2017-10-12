@@ -37,10 +37,9 @@
 
 -(id)init {
     if (self = [super init]) {
-        /*
         SQAWineModel *tintorro = [SQAWineModel wineWithName:@"Bembibre"
                                                        type:@"tinto"
-                                                      photo:[UIImage imageNamed:@"bembibre.jpg"]
+                                                      photoURL:nil
                                             wineCompanyName:@"Dominio de Tares"
                                              wineCompanyWeb:[NSURL URLWithString:@"https://www.dominiodetares.com"]
                                                       notes:@"Este vino muestra toda la complejidad y la elegancia de la variedad Mencía. En fase visual luce un color rojo picota muy cubierto con tonalidades violáceas en el menisco. En nariz aparecen recuerdos frutales muy intensos de frutas rojas (frambuesa, cereza) y una potente ciruela negra, así como tonos florales de la gama de las rosas y violetas, vegetales muy elegantes y complementarios, hojarasca verde, tabaco y maderas aromáticas (sándalo) que le brindan un toque ciertamente perfumado."
@@ -48,9 +47,11 @@
                                                      rating:5
                                                      grapes:@[@"Mencía"]];
         
+        [tintorro setPhoto:[UIImage imageNamed:@"bembibre.jpg"]];
+        
         SQAWineModel *albarinno = [SQAWineModel wineWithName:@"Zárate"
                                                         type:@"white"
-                                                       photo:[UIImage imageNamed:@"zarate.gif"]
+                                                       photoURL:nil
                                              wineCompanyName:@"Zárate"
                                               wineCompanyWeb:[NSURL URLWithString:@"http://bodegas-zarate.com"]
                                                        notes:@"El albariño Zarate es un vino blanco monovarietal que pertenece a la Denominación de Origen Rías Baixas. Considerado por la crítica especializada como uno de los grandes vinos blancos del mundo, el albariño ya es todo un mito."
@@ -58,9 +59,11 @@
                                                       rating:4
                                                       grapes:@[@"Albariño"]];
         
+        [albarinno setPhoto:[UIImage imageNamed:@"zarate.gif"]];
+        
         SQAWineModel *champagne = [SQAWineModel wineWithName:@"Comtes de Champagne"
                                                         type:@"other"
-                                                       photo:[UIImage imageNamed:@"comtesDeChampagne.jpg"]
+                                                       photoURL:nil
                                              wineCompanyName:@"Champagne Taittinger"
                                               wineCompanyWeb:[NSURL URLWithString:@"http://www.taittinger.fr"]
                                                        notes:@"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nunc purus. Curabitur eu velit mauris. Curabitur magna nisi, ullamcorper ac bibendum ac, laoreet et justo. Praesent vitae tortor quis diam luctus condimentum. Suspendisse potenti. In magna elit, interdum sit amet facilisis dictum, bibendum nec libero. Maecenas pellentesque posuere vehicula. Vivamus eget nisl urna, quis egestas sem. Vivamus at venenatis quam. Sed eu nulla a orci fringilla pulvinar ut eu diam. Morbi nibh nibh, bibendum at laoreet egestas, scelerisque et nisi. Donec ligula quam, semper nec bibendum in, semper eget dolor. In hac habitasse platea dictumst. Maecenas adipiscing semper rutrum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;"
@@ -68,11 +71,13 @@
                                                       rating:5
                                                       grapes:@[@"Chardonnay"]];
         
-        _redWines = @[tintorro];
-        _whiteWines = @[albarinno];
-        _otherWines = @[champagne];
-        */
+        [champagne setPhoto:[UIImage imageNamed:@"comtesDeChampagne.jpg"]];
         
+        _redWines = [@[tintorro] mutableCopy];
+        _whiteWines = [@[albarinno] mutableCopy];
+        _otherWines = [@[champagne] mutableCopy];
+        
+        /**
         NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://baccusapp.herokuapp.com/wines"]];
         [[[NSURLSession sharedSession] dataTaskWithRequest:request
                                          completionHandler:^(NSData * data, NSURLResponse * response, NSError * error) {
@@ -130,6 +135,7 @@
             }
             
         }] resume];
+         */
     }
     
     return self;
