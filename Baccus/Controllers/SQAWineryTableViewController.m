@@ -177,16 +177,21 @@ titleForHeaderInSection:(NSInteger)section
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     SQAWineModel *wine = [self wineAtIndexPath:indexPath];
     
-    // Option 1: Suponemos que estamos en un UINavitagionViewController
-    // Push the view controller.
-    // SQAWineViewController *wineVC = [[SQAWineViewController alloc] initWithModel:wine];
-    // [self.navigationController pushViewController:wineVC animated:YES];
-    
-    // Usually we send the message through delegate and a notification.
-    // Option 2: Send message to delegate
-    [self.delegate wineryTableViewController:self didSelectWine:wine];
-    
-    [self saveLastSelectedWineAtSection:indexPath.section row:indexPath.row];
+    // A Boolean value indicating whether only one of the child view
+    // controllers is displayed.
+    if (self.splitViewController.collapsed) {
+        // Option 1: Own UINavigationController (Auto-Delegate)
+        // Push the view controller.
+        SQAWineViewController *wineVC = [[SQAWineViewController alloc] initWithModel:wine];
+        [self.navigationController pushViewController:wineVC animated:YES];
+    }
+    else {
+        // Option 2: iPad - UISplitViewController
+        // Usually we send the message through delegate and a notification.
+        // Send message to delegate
+        [self.delegate wineryTableViewController:self didSelectWine:wine];
+        [self saveLastSelectedWineAtSection:indexPath.section row:indexPath.row];
+    }
     
     NSNotification *notification = [NSNotification notificationWithName:NEW_WINE_NOTIFICATION_NAME
                                                                  object:self

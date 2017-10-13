@@ -50,8 +50,9 @@
     // Creamos el controlador
     UISplitViewController *splitVC = [[UISplitViewController alloc] init];
     [splitVC setViewControllers:@[sideVC, mainVC]];
+    
     [splitVC setDelegate:wineVC];
-    [splitVC setPreferredDisplayMode:UISplitViewControllerDisplayModeAutomatic];
+    [splitVC setPreferredDisplayMode:UISplitViewControllerDisplayModeAllVisible];
     
     self.window.rootViewController = splitVC;
     self.window.backgroundColor = [UIColor whiteColor];

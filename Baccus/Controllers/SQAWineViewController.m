@@ -7,6 +7,7 @@
 //
 
 #import "SQAWineModel.h"
+#import "SQAWineryTableViewController.h"
 #import "SQAWineViewController.h"
 #import "SQAWebViewController.h"
 
@@ -82,6 +83,50 @@
     }
 }
 
+// Asks the delegate to adjust the primary view controller and to incorporate the secondary view controller into the collapsed interface. Returning NO tells the split view controller to use its default behavior to try and incorporate the secondary view controller into the collapsed interface.
+-(BOOL)splitViewController:(UISplitViewController *)splitViewController
+collapseSecondaryViewController:(UIViewController *)secondaryViewController
+ ontoPrimaryViewController:(UIViewController *)primaryViewController {
+    // Always collapse detail view
+    return YES;
+}
+
+- (UIViewController *)splitViewController:(UISplitViewController *)splitViewController
+separateSecondaryViewControllerFromPrimaryViewController:(UIViewController *)primaryViewController{
+    SQAWineViewController *wineVC = nil;
+    SQAWineryTableViewController *wineryVC = nil;
+    
+    if ([primaryViewController isKindOfClass:[UINavigationController class]]) {
+        for (UIViewController *controller in [(UINavigationController *)primaryViewController viewControllers]) {
+            if ([controller isKindOfClass:[SQAWineryTableViewController class]]) {
+                wineryVC = (SQAWineryTableViewController *)controller;
+            }
+            
+            if ([controller isKindOfClass:[SQAWineViewController class]]) {
+                wineVC = (SQAWineViewController *)controller;
+            }
+        }
+    }
+    
+    if (wineVC) {
+        [(UINavigationController *)primaryViewController popToRootViewControllerAnimated:NO];
+        
+        // Set delates
+        [wineryVC setDelegate:wineVC];
+        [splitViewController setDelegate:wineVC];
+        
+        UINavigationController *detailVC = [[UINavigationController alloc] initWithRootViewController:wineVC];
+        detailVC.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+        detailVC.navigationBar.backgroundColor = [UIColor colorWithRed:0.5
+                                                               green:0
+                                                                blue:0.13
+                                                               alpha:1];
+        return detailVC;
+    }
+    
+    return nil;
+}
+
 #pragma mark - Actions
 
 -(IBAction)displayWeb:(id)sender {
@@ -93,6 +138,8 @@
 #pragma mark - Helpers
 
 -(void) syncModelWithView {
+    self.title = self.model.name;
+    
     self.photoView.image = self.model.photo;
     self.nameLabel.text = self.model.name;
     self.companyLabel.text = self.model.wineCompanyName;

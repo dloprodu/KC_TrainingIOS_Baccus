@@ -19,6 +19,8 @@
 #define ROW_KEY @"row"
 #define LAST_WINE_KEY @"lastWine"
 
+#define IS_PHONE UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPhone
+
 // Declaraciones adelantadas
 @class SQAWineModel;
 @class SQAWineryModel;
