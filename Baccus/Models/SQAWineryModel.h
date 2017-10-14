@@ -13,6 +13,14 @@
 #define OTHER_WINE_KEY  @"Rosado"
 
 @class SQAWineModel;
+@class SQAWineryModel;
+
+// Delgado
+@protocol WineryDelegate <NSObject>
+
+-(void)wineryDidLoad: (SQAWineryModel *) winery;
+
+@end
 
 @interface SQAWineryModel : NSObject
 
@@ -21,6 +29,8 @@
 @property (readonly, nonatomic) NSUInteger redWineCount;
 @property (readonly, nonatomic) NSUInteger whiteWineCount;
 @property (readonly, nonatomic) NSUInteger otherWineCount;
+
+@property (weak, nonatomic) id<WineryDelegate> delegate;
 
 #pragma mark - Methods
 

@@ -8,8 +8,6 @@
 
 #import "SQAWineryTableViewController.h"
 #import "SQAWineViewController.h"
-#import "SQAWineModel.h"
-#import "SQAWineryModel.h"
 
 @interface SQAWineryTableViewController ()
 
@@ -208,6 +206,12 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     // Pass the selected object to the new view controller.
 }
 */
+
+#pragma mark - WineryDelegate
+
+-(void) wineryDidLoad:(SQAWineryModel *)winery {
+    [self.tableView reloadData];
+}
 
 #pragma mark - Helpers
 

@@ -37,6 +37,7 @@
 
 -(id)init {
     if (self = [super init]) {
+        /**
         SQAWineModel *tintorro = [SQAWineModel wineWithName:@"Bembibre"
                                                        type:@"tinto"
                                                       photoURL:nil
@@ -76,9 +77,9 @@
         _redWines = [@[tintorro] mutableCopy];
         _whiteWines = [@[albarinno] mutableCopy];
         _otherWines = [@[champagne] mutableCopy];
+        */
         
-        /**
-        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://baccusapp.herokuapp.com/wines"]];
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://static.keepcoding.io/baccus/wines.json"]];
         [[[NSURLSession sharedSession] dataTaskWithRequest:request
                                          completionHandler:^(NSData * data, NSURLResponse * response, NSError * error) {
             
@@ -94,8 +95,12 @@
                 
                 if (JSONObjects != nil) {
                     // No ha habido error
-                    for(NSDictionary *dict in JSONObjects){
+                    for (NSDictionary *dict in JSONObjects){
                         SQAWineModel *wine = [[SQAWineModel alloc] initWithDictionary:dict];
+                        
+                        if (wine.name == nil) {
+                            continue;
+                        }
                         
                         // Añadimos al tipo adecuado
                         if ([wine.type isEqualToString:RED_WINE_KEY]) {
@@ -123,19 +128,24 @@
                             }
                         }
                     }
+                    
+                    [self.delegate wineryDidLoad:self];
                 }
-                else{
+                else {
+                    [self.delegate wineryDidLoad:self];
+                    
                     // Se ha producido un error al parsear el JSON
                     NSLog(@"Error al parsear JSON: %@", error.localizedDescription);
                 }
             }
             else{
+                [self.delegate wineryDidLoad:self];
+                
                 // Error al descargar los datos del servidor
                 NSLog(@"Error al descargar datos del servidor: %@", error.localizedDescription);
             }
             
         }] resume];
-         */
     }
     
     return self;

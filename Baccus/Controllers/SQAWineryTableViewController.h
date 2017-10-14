@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SQAWineModel.h"
+#import "SQAWineryModel.h"
 
 #define RED_WINE_SECTION   0
 #define WHITE_WINE_SECTION 1
@@ -22,8 +24,6 @@
 #define IS_PHONE UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPhone
 
 // Declaraciones adelantadas
-@class SQAWineModel;
-@class SQAWineryModel;
 @class SQAWineryTableViewController;
 
 // Delgado
@@ -34,7 +34,7 @@
 @end
 
 // ViewController
-@interface SQAWineryTableViewController : UITableViewController
+@interface SQAWineryTableViewController : UITableViewController<WineryDelegate>
 
 #pragma mark - Properties
 
