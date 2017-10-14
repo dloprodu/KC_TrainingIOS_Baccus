@@ -20,6 +20,8 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [self customiseAppeareance];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     
@@ -32,18 +34,7 @@
     SQAWineViewController *wineVC = [[SQAWineViewController alloc] initWithModel:[wineryVC lastSelectedWine]];
     
     UINavigationController *sideVC = [[UINavigationController alloc] initWithRootViewController:wineryVC];
-    sideVC.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-    sideVC.navigationBar.backgroundColor = [UIColor colorWithRed:0.5
-                                                          green:0
-                                                           blue:0.13
-                                                          alpha:1];
     UINavigationController *mainVC = [[UINavigationController alloc] initWithRootViewController:wineVC];
-    mainVC.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-    mainVC.navigationBar.backgroundColor = [UIColor colorWithRed:0.5
-                                                          green:0
-                                                           blue:0.13
-                                                          alpha:1];
-    
 
     [wineryVC setDelegate:wineVC];
     
@@ -87,5 +78,49 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+- (void)customiseAppeareance {
+    UIColor *oldBurgundy = [UIColor colorWithRed:0.26
+                                           green:0.19
+                                            blue:0.18
+                                           alpha:1.0];
+    
+    if (IS_PHONE) {
+        [[UINavigationBar appearance] setBackgroundImage:[[UIImage imageNamed:@"navBarBackgroundPortrait.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 2, 0, 2) resizingMode: UIImageResizingModeStretch] forBarMetrics:UIBarMetricsDefault];
+        [[UINavigationBar appearance] setBackgroundImage:[[UIImage imageNamed:@"navBarBackgroundLandscape.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 2, 0, 2) resizingMode: UIImageResizingModeStretch] forBarMetrics:UIBarMetricsCompact];
+    }
+    else {
+        [[UINavigationBar appearance] setBackgroundImage:[[UIImage imageNamed:@"navBarBackgroundPortraitiPad.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 2, 0, 2) resizingMode: UIImageResizingModeStretch] forBarMetrics:UIBarMetricsDefault];
+        [[UINavigationBar appearance] setBackgroundImage:[[UIImage imageNamed:@"navBarBackgroundLandscapeiPad.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 2, 0, 2) resizingMode: UIImageResizingModeStretch] forBarMetrics:UIBarMetricsCompact];
+    }
+    
+    [[UIBarButtonItem appearance] setBackgroundImage:[UIImage imageNamed:@"btn_bg.png"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [[UIBarButtonItem appearance] setBackgroundImage:[UIImage imageNamed:@"btn_bg.png"] forState:UIControlStateNormal barMetrics:UIBarMetricsCompact];
+    
+    NSShadow *shadow = [NSShadow new];
+    [shadow setShadowColor: [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.8]];
+    [shadow setShadowOffset: CGSizeMake(0.0f, 1.0f)];
+    
+    
+    
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor],
+                                                           NSShadowAttributeName: shadow,
+                                                           NSFontAttributeName: [UIFont fontWithName:@"Valentina-Regular" size:20]}];
+    
+    [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor],
+                                                           NSShadowAttributeName: shadow,
+                                                           NSFontAttributeName: [UIFont fontWithName:@"Valentina-Regular" size:12]} forState:UIControlStateNormal];
+    
+    // Color de los separadores de sección en las las tablas
+    [[UITableViewHeaderFooterView appearance] setTintColor:oldBurgundy];
+    
+    [[UILabel appearanceWhenContainedInInstancesOfClasses:@[[UITableViewHeaderFooterView class]]] setTextColor:[UIColor whiteColor]];
+    
+    // Botón de hacia atrás con la Elasticina del Profesor Saturnino Bacterio
+    UIImage *backBtn = [UIImage imageNamed:@"backBtn"];
+    backBtn = [backBtn resizableImageWithCapInsets:UIEdgeInsetsMake(0, 13, 0, 5)];
+    [[UIBarButtonItem appearance] setBackButtonBackgroundImage:backBtn
+                                                      forState:UIControlStateNormal
+                                                    barMetrics:UIBarMetricsDefault];
+}
 
 @end

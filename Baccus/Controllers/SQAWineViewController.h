@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "SQAWineryTableViewController.h"
 
-#define IS_PHONE UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPhone
-
 @class SQAWineModel;
 
 @interface SQAWineViewController : UIViewController<UISplitViewControllerDelegate, WineryTableViewControllerDelegate>
