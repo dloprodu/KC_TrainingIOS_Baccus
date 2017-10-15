@@ -49,6 +49,7 @@
 		631CB5C71F92C7A700961544 /* fileteUva@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 631CB5AD1F92C7A700961544 /* fileteUva@2x.png */; };
 		631CB5C81F92C7A700961544 /* fileteOrigenLandscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 631CB5AE1F92C7A700961544 /* fileteOrigenLandscape.png */; };
 		631CB5CA1F92C83600961544 /* Valentina-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 631CB5C91F92C83600961544 /* Valentina-Regular.otf */; };
+		634CC6B51F93BE9B0016DACB /* SQAWineViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 634CC6B41F93BE9B0016DACB /* SQAWineViewController~ipad.xib */; };
 		638AD8791F856CF600ACB7DC /* SQAWineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 638AD8771F856CF600ACB7DC /* SQAWineViewController.m */; };
 		638AD87A1F856CF600ACB7DC /* SQAWineViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 638AD8781F856CF600ACB7DC /* SQAWineViewController.xib */; };
 		638AD8851F85930900ACB7DC /* bembibre.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 638AD8841F85930900ACB7DC /* bembibre.jpg */; };
@@ -106,6 +107,7 @@
 		631CB5AD1F92C7A700961544 /* fileteUva@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fileteUva@2x.png"; sourceTree = "<group>"; };
 		631CB5AE1F92C7A700961544 /* fileteOrigenLandscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fileteOrigenLandscape.png; sourceTree = "<group>"; };
 		631CB5C91F92C83600961544 /* Valentina-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Valentina-Regular.otf"; sourceTree = "<group>"; };
+		634CC6B41F93BE9B0016DACB /* SQAWineViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "SQAWineViewController~ipad.xib"; sourceTree = "<group>"; };
 		638AD8761F856CF600ACB7DC /* SQAWineViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SQAWineViewController.h; sourceTree = "<group>"; };
 		638AD8771F856CF600ACB7DC /* SQAWineViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SQAWineViewController.m; sourceTree = "<group>"; };
 		638AD8781F856CF600ACB7DC /* SQAWineViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SQAWineViewController.xib; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 		638AD8751F856C4100ACB7DC /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				634CC6B41F93BE9B0016DACB /* SQAWineViewController~ipad.xib */,
 				638AD8761F856CF600ACB7DC /* SQAWineViewController.h */,
 				638AD8771F856CF600ACB7DC /* SQAWineViewController.m */,
 				638AD8781F856CF600ACB7DC /* SQAWineViewController.xib */,
@@ -331,6 +334,7 @@
 				631CB5C51F92C7A700961544 /* fileteOrigenLandscape@2x.png in Resources */,
 				63CC5EB11F843CE800176AE3 /* Assets.xcassets in Resources */,
 				631CB5BA1F92C7A700961544 /* fileteUvaPortrait@2x.png in Resources */,
+				634CC6B51F93BE9B0016DACB /* SQAWineViewController~ipad.xib in Resources */,
 				638AD8851F85930900ACB7DC /* bembibre.jpg in Resources */,
 				631CB5C81F92C7A700961544 /* fileteOrigenLandscape.png in Resources */,
 				631CB5B81F92C7A700961544 /* sectionBackground.png in Resources */,

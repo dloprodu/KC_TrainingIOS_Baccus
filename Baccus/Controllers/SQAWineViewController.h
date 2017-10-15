@@ -1,37 +1,44 @@
 //
-//  SQAWineViewController.h
+//  AGTWineViewController.h
 //  Baccus
 //
-//  Created by David Lopez Rodriguez on 04/10/2017.
-//  Copyright © 2017 David López Rodriguez. All rights reserved.
+//  Created by Fernando Rodríguez Romero on 1/30/13.
+//  Copyright (c) 2013 Agbo. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
+#import "SQAWineModel.h"
 #import "SQAWineryTableViewController.h"
 
-@class SQAWineModel;
+@interface SQAWineViewController : UIViewController<SQAWineryTableViewControllerDelegate>
 
-@interface SQAWineViewController : UIViewController<WineryTableViewControllerDelegate>
 
-#pragma mark - Properties
-
-@property (weak, nonatomic) IBOutlet UIImageView *photoView;
+// Propiedades
+@property (strong, nonatomic) SQAWineModel *model;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *companyLabel;
+@property (weak, nonatomic) IBOutlet UILabel *wineryNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *typeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *originLabel;
 @property (weak, nonatomic) IBOutlet UILabel *grapesLabel;
-@property (weak, nonatomic) IBOutlet UILabel *notesLabel;
-@property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *ratingView;
+@property (weak, nonatomic) IBOutlet UITextView *notesView;
+@property (weak, nonatomic) IBOutlet UIImageView *photoView;
+@property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *ratingViews;
+@property (weak, nonatomic) IBOutlet UIButton *webButton;
+@property (strong, nonatomic) IBOutlet UIView *landscapeView;
 
-@property (strong, nonatomic) SQAWineModel *model;
+// portrait
+@property (weak, nonatomic) IBOutlet UILabel *nameLabelPortrait;
+@property (weak, nonatomic) IBOutlet UILabel *wineryNameLabelPortrait;
+@property (weak, nonatomic) IBOutlet UILabel *typeLabelPortrait;
+@property (weak, nonatomic) IBOutlet UILabel *originLabelPortrait;
+@property (weak, nonatomic) IBOutlet UILabel *grapesLabelPortrait;
+@property (weak, nonatomic) IBOutlet UITextView *notesViewPortrait;
+@property (weak, nonatomic) IBOutlet UIImageView *photoViewPortrait;
+@property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *ratingViewsPortrait;
 
-#pragma mark - Designated Initializer
+-(id) initWithModel: (SQAWineModel *) aModel;
 
--(id) initWithModel: (SQAWineModel *) model;
+-(IBAction)displayWebpage:(id)sender;
 
-#pragma mark - Actions
-
--(IBAction)displayWeb:(id)sender;
 
 @end

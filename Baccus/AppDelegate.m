@@ -28,9 +28,7 @@
     // Creamos una UIWindows
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    SQAWineryModel *winery = [[SQAWineryModel alloc] init];
-    
-    SQAWineryTableViewController *wineryVC = [[SQAWineryTableViewController alloc] initWithModel:winery style:UITableViewStylePlain];
+    SQAWineryTableViewController *wineryVC = [[SQAWineryTableViewController alloc] initWithModel:nil style:UITableViewStylePlain];
         
     SQAWineViewController *wineVC = [[SQAWineViewController alloc] initWithModel:nil];
         
@@ -47,8 +45,6 @@
     
     self.window.rootViewController = splitVC;
     [self.window makeKeyAndVisible];
-    
-    [winery load];
     
     return YES;
 }

@@ -19,6 +19,8 @@
 
 @implementation SQAWineryModel
 
+//@synthesize isLoaded = _isLoaded;
+
 #pragma mark - Properties
 
 -(NSUInteger) redWineCount {
@@ -37,6 +39,7 @@
 
 -(id)init {
     if (self = [super init]) {
+        _isLoaded = NO;
         /**
         SQAWineModel *tintorro = [SQAWineModel wineWithName:@"Bembibre"
                                                        type:@"tinto"
@@ -147,9 +150,11 @@
                          }
                      }
                      
+                     _isLoaded = true;
                      [self.delegate wineryDidLoad:self];
                  }
                  else {
+                     _isLoaded = true;
                      [self.delegate wineryDidLoad:self];
                      
                      // Se ha producido un error al parsear el JSON
@@ -157,6 +162,7 @@
                  }
              }
              else{
+                 _isLoaded = true;
                  [self.delegate wineryDidLoad:self];
                  
                  // Error al descargar los datos del servidor

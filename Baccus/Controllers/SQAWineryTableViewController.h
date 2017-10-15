@@ -27,7 +27,7 @@
 @class SQAWineryTableViewController;
 
 // Delgado
-@protocol WineryTableViewControllerDelegate <NSObject>
+@protocol SQAWineryTableViewControllerDelegate <NSObject>
 
 -(void)wineryTableViewController: (SQAWineryTableViewController *) wineryVC didSelectWine: (SQAWineModel *) wine;
 
@@ -39,7 +39,7 @@
 #pragma mark - Properties
 
 @property (strong, nonatomic) SQAWineryModel *model;
-@property (weak, nonatomic) id<WineryTableViewControllerDelegate> delegate;
+@property (weak, nonatomic) id<SQAWineryTableViewControllerDelegate> delegate;
 
 #pragma mark - Designated Initializer
 

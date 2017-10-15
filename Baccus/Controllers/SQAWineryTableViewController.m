@@ -44,12 +44,35 @@
     [super viewWillAppear:animated];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    if (!self.model || !self.model.isLoaded) {
+        UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        indicator.hidesWhenStopped = YES;
+        indicator.frame = CGRectMake(self.view.frame.size.width / 2 - 37 / 2, self.view.frame.size.height / 2 - 37 / 2, 37, 37);
+        [indicator startAnimating];
+        
+        // como descendemos de UITableViewController nos da muy poca flexibilidad a la hora de añadir subvistas, lo añadimos como cabecera de la tabla
+        self.tableView.tableHeaderView = indicator;
+        
+        [self performSelector:@selector(loadModel) withObject:nil afterDelay:0.1];
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Methods
+
+- (void)loadModel {
+    self.model = [[SQAWineryModel alloc] init];
+    self.model.delegate = self;
+    
+    [self.model load];
+}
 
 -(void) saveLastSelectedWineAtSection:(NSUInteger)section row:(NSUInteger)row {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -97,18 +120,31 @@
          cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"WineCell";
     
+    SQAWineModel *wine = [self wineAtIndexPath:indexPath];
+    
     UITableViewCell *wineCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     //UITableViewCell *cell =   [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     // Configure the cell...
     if (wineCell == nil) {
-        wineCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
-                                      reuseIdentifier:CellIdentifier];
+        // La creamos de cero
+        wineCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        
+        // aplicamos diseño
+        wineCell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cell_bg.png"]];
+        wineCell.textLabel.backgroundColor = [UIColor clearColor];
+        wineCell.detailTextLabel.backgroundColor = [UIColor clearColor];
+        wineCell.textLabel.font = [UIFont fontWithName:@"Valentina-Regular" size:18];
+        wineCell.detailTextLabel.font = [UIFont fontWithName:@"Valentina-Regular" size:16];
     }
     
-    SQAWineModel *wine = [self wineAtIndexPath:indexPath];
-    
-    wineCell.imageView.image = wine.photo;
+    // Sincronizamos modelo con vista (celda)
+    if (wine.photo) {
+        wineCell.imageView.image = wine.photo;
+    }
+    else {
+        wineCell.imageView.image = [UIImage imageNamed:@"cell_icon_bg.png"];
+    }
     wineCell.textLabel.text = wine.name;
     wineCell.detailTextLabel.text = wine.wineCompanyName;
     
@@ -198,6 +234,36 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    // devolvemos el tamaño al mismo que el background que hemos puesto
+    return 72;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    // devolvemos el tamaño de la imagen de la cabecera
+    return 30;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    SQAWineModel *wine = [self wineAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:section]];
+    
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 30)];
+    UIImageView *backgroundHeader = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"sectionBackground.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)]];
+    [backgroundHeader setContentMode: UIViewContentModeScaleAspectFill];
+    [headerView addSubview:backgroundHeader];
+    [headerView setContentMode:UIViewContentModeScaleAspectFill];
+    
+    UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, self.tableView.frame.size.width - 10, 30)];
+    name.font = [UIFont fontWithName:@"Valentina-Regular" size:20];
+    name.textColor = [UIColor whiteColor];
+    name.text = wine.type;
+    name.backgroundColor = [UIColor clearColor];
+    
+    [headerView addSubview:name];
+    
+    return headerView;
+}
+
 /*
 #pragma mark - Navigation
 
@@ -212,6 +278,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
 -(void) wineryDidLoad:(SQAWineryModel *)winery {
     dispatch_async(dispatch_get_main_queue(), ^{
+        self.tableView.tableHeaderView = nil;
         [self.tableView reloadData];
         
         SQAWineModel *wine = [self lastSelectedWine];

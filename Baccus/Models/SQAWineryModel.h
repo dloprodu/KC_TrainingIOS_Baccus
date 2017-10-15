@@ -27,6 +27,7 @@
 
 #pragma mark - Properties
 
+@property (readonly, nonatomic) BOOL isLoaded;
 @property (readonly, nonatomic) NSUInteger redWineCount;
 @property (readonly, nonatomic) NSUInteger whiteWineCount;
 @property (readonly, nonatomic) NSUInteger otherWineCount;

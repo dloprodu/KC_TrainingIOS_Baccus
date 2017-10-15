@@ -1,126 +1,168 @@
 //
-//  SQAWineViewController.m
+//  AGTWineViewController.m
 //  Baccus
 //
-//  Created by David Lopez Rodriguez on 04/10/2017.
-//  Copyright © 2017 David López Rodriguez. All rights reserved.
+//  Created by Fernando Rodríguez Romero on 1/30/13.
+//  Copyright (c) 2013 Agbo. All rights reserved.
 //
 
 #import "SQAWineViewController.h"
 #import "SQAWebViewController.h"
 
-@interface SQAWineViewController ()
-
-@end
+#define kCustomFontHeader           [UIFont fontWithName:@"Valentina-Regular" size:17]
+#define kCustomFontSubheader        [UIFont fontWithName:@"Valentina-Regular" size:15]
+#define kCustomFontRegular          [UIFont fontWithName:@"Valentina-Regular" size:12]
 
 @implementation SQAWineViewController
 
-#pragma mark - Designated Initializer
-
--(id) initWithModel: (SQAWineModel *) model {
+- (id)initWithModel:(SQAWineModel *)aModel {
+   
     if (self = [super initWithNibName:nil bundle:nil]) {
-        _model = model;
-        self.title = @"Wine Detail";
+        _model = aModel;
+        self.title = aModel.name;
     }
     return self;
 }
 
-#pragma mark - View Lifecycle
-
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    // como la fuente es custom, tenemos que decirselo por código
+    // configuracion fuentes custom: http://codewithchris.com/common-mistakes-with-adding-custom-fonts-to-your-ios-app/
+    self.nameLabel.font = kCustomFontHeader;
+    self.wineryNameLabel.font = kCustomFontSubheader;
+    self.typeLabel.font = kCustomFontSubheader;
+    self.originLabel.font = kCustomFontSubheader;
+    self.grapesLabel.font = kCustomFontSubheader;
+    self.notesView.font = kCustomFontRegular;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     
-    if (self.splitViewController.collapsed == NO && self.splitViewController.displayMode == UISplitViewControllerDisplayModePrimaryHidden) {
-        self.navigationItem.rightBarButtonItem = self.splitViewController.displayModeButtonItem;
-        self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStylePlain;
+    [self syncViewToModel];
+    
+    // si estamos en landscape, añadimos la vista que tenemos para landscape
+    if (UIDeviceOrientationIsLandscape([[UIDevice currentDevice] orientation])) {
+        [self addLandscapeViewWithProperFrame];
     }
-    
-    [self syncModelWithView];
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    if (UIInterfaceOrientationIsLandscape(fromInterfaceOrientation)) {
+        // estamos en portrait
+        [self.landscapeView removeFromSuperview];
+    }
+    else {
+        // estamos en landscape
+        [self addLandscapeViewWithProperFrame];
+    }
 }
 
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
-
-#pragma mark - WineryTableViewControllerDelegate
-
--(void) wineryTableViewController:(SQAWineryTableViewController *)wineryVC
-                    didSelectWine:(SQAWineModel *)wine {
-    self.model = wine;
-    
-    [self syncModelWithView];
+- (void)addLandscapeViewWithProperFrame {
+    // asignamos el frame a la vista en portrait para que se redimensione
+    // si la añadimos directamente como view, al no estar dentro de un VC, no se va a redimensionar
+    CGRect iPhoneScreen = [[UIScreen mainScreen] bounds];
+    CGRect portraitRect = CGRectMake(0, 0, iPhoneScreen.size.height, iPhoneScreen.size.width);
+    self.landscapeView.frame = portraitRect;
+    [self.view addSubview:self.landscapeView];
 }
 
 #pragma mark - Actions
 
--(IBAction)displayWeb:(id)sender {
+- (IBAction)displayWebpage:(id)sender
+{    
     SQAWebViewController *webVC = [[SQAWebViewController alloc] initWithModel:self.model];
     
     [self.navigationController pushViewController:webVC animated:YES];
 }
 
-#pragma mark - Helpers
+#pragma mark - Utils
 
--(void) syncModelWithView {    
-    self.photoView.image = [self.model photo];
-    self.nameLabel.text = [self.model name];
-    self.companyLabel.text = [self.model wineCompanyName];
-    self.typeLabel.text = [self.model type];
-    self.originLabel.text = [self.model origin];
-    self.grapesLabel.text = [self arrayToString:[self.model grapes]];
-    self.notesLabel.text = [self.model notes];
-    [self displayRating: [self.model rating]];
-    
-    [self.notesLabel setNumberOfLines:0];
+- (void)clearRatings {
+    for (UIImageView *each in self.ratingViews) {
+        each.image = nil;
+    }
 }
 
--(NSString*)arrayToString: (NSArray *) array {
-    NSString *repre = nil;
+- (void)displayRating:(int)aRatingValue {
+    [self clearRatings];
     
-    if ([array count] == 1) {
-        repre = [@"100% " stringByAppendingString:[array lastObject]];
+    UIImage *glass = [UIImage imageNamed:@"copa_cell.png"];
+    
+    for (int i = 0; i < aRatingValue; i++) {        
+        [[self.ratingViews objectAtIndex:i] setImage:glass];
+        [[self.ratingViewsPortrait objectAtIndex:i] setImage:glass];
+    }
+}
+
+- (void)syncViewToModel {
+    // landscape
+    self.nameLabel.text = self.model.name;
+    self.typeLabel.text = self.model.type;
+    self.originLabel.text = self.model.origin;
+    self.wineryNameLabel.text = self.model.wineCompanyName;
+    self.notesView.text = self.model.notes;
+    self.photoView.image = self.model.photo;
+    self.grapesLabel.text = [self arrayToString:self.model.grapes];
+    
+    // portrait
+    self.nameLabelPortrait.text = self.model.name;
+    self.typeLabelPortrait.text = self.model.type;
+    self.originLabelPortrait.text = self.model.origin;
+    self.wineryNameLabelPortrait.text = self.model.wineCompanyName;
+    self.notesViewPortrait.text = self.model.notes;
+    self.photoViewPortrait.image = self.model.photo;
+    self.grapesLabelPortrait.text = [self arrayToString:self.model.grapes];
+    
+    [self displayRating:self.model.rating];
+    
+    NSLog(@"web: %@", self.model.wineCompanyWeb);
+    if (self.model.wineCompanyWeb == nil) {
+        self.webButton.enabled = NO;
+    }else{
+        self.webButton.enabled = YES;
+    }
+    
+    self.title = self.model.name;
+    
+    // ajustamos los labels según su tamaño o reducimos la fuente en su caso ya que en el iPhone puede ocurrir que no quepa todo el texto
+    self.nameLabel.adjustsFontSizeToFitWidth = YES;
+    self.wineryNameLabel.adjustsFontSizeToFitWidth = YES;
+    self.typeLabel.adjustsFontSizeToFitWidth = YES;
+    self.originLabel.adjustsFontSizeToFitWidth = YES;
+    [self.grapesLabel sizeToFit];
+    
+    // como las uvas puede tener un tamaño bastante variable (ajustado mediante sizeToFit)
+    // necesitamos bastante espacio para las notas movemos subimos el el frame de la nota
+    // lo hacemos solo en iPhone por las restricciones obvias de tamaño
+    if (IS_PHONE) {
+        CGRect newFrame = self.notesView.frame;
+        CGFloat offset = newFrame.origin.y - (self.grapesLabel.frame.origin.y + self.grapesLabel.frame.size.height + 10);
+        newFrame.origin.y = self.grapesLabel.frame.origin.y + self.grapesLabel.frame.size.height + 10;
+        newFrame.size.height += fabsf(offset);
+        self.notesView.frame = newFrame;
+    }
+}
+
+- (NSString *)arrayToString:(NSArray *)anArray {
+    NSString *repr;
+    
+    if ([anArray count] == 1) {
+        repr = [@"100% " stringByAppendingString: [anArray lastObject]];
     }
     else {
-        repre = [[array componentsJoinedByString:@", "] stringByAppendingString:@"."];
+        repr = [[anArray componentsJoinedByString:@", "] stringByAppendingString:@"."];
     }
     
-    return repre;
+    return repr;
 }
 
--(void) clearRating {
-    for (UIImageView *imageView in self.ratingView) {
-        imageView.image = nil;
-    }
-}
+#pragma mark -  AGTWineryTableViewControllerDelegate
 
--(void) displayRating:(int) rating {
-    [self clearRating];
-    
-    UIImage *image = [UIImage imageNamed:@"splitView_score_glass"];
-    
-    for (int i = 0; i < rating; i++) {
-        [[self.ratingView objectAtIndex:i] setImage:image];
-    }
+- (void)wineryTableViewController:(SQAWineryTableViewController *)aWineryVC
+                    didSelectWine:(SQAWineModel *)aWine {
+    self.model = aWine;
+    [self syncViewToModel];
 }
 
 @end
