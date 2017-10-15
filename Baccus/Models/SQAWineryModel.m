@@ -77,77 +77,8 @@
         _redWines = [@[tintorro] mutableCopy];
         _whiteWines = [@[albarinno] mutableCopy];
         _otherWines = [@[champagne] mutableCopy];
-        */
-        
-        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://static.keepcoding.io/baccus/wines.json"]];
-        [[[NSURLSession sharedSession] dataTaskWithRequest:request
-                                         completionHandler:^(NSData * data, NSURLResponse * response, NSError * error) {
-            
-            //NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-            //NSInteger statusCode = httpResponse.statusCode;
-            //if (statusCode >= 200 && statusCode < 300)
-            
-            if (data != nil) {
-                // No ha habido error
-                NSArray * JSONObjects = [NSJSONSerialization JSONObjectWithData:data
-                                                                        options:kNilOptions
-                                                                          error:&error];
-                
-                if (JSONObjects != nil) {
-                    // No ha habido error
-                    for (NSDictionary *dict in JSONObjects){
-                        SQAWineModel *wine = [[SQAWineModel alloc] initWithDictionary:dict];
-                        
-                        if (wine.name == nil) {
-                            continue;
-                        }
-                        
-                        // Añadimos al tipo adecuado
-                        if ([wine.type isEqualToString:RED_WINE_KEY]) {
-                            if (!self.redWines) {
-                                self.redWines = [NSMutableArray arrayWithObject:wine];
-                            }
-                            else {
-                                [self.redWines addObject:wine];
-                            }
-                        }
-                        else if ([wine.type isEqualToString:WHITE_WINE_KEY]) {
-                            if (!self.whiteWines) {
-                                self.whiteWines = [NSMutableArray arrayWithObject:wine];
-                            }
-                            else {
-                                [self.whiteWines addObject:wine];
-                            }
-                        }
-                        else {
-                            if (!self.otherWines) {
-                                self.otherWines = [NSMutableArray arrayWithObject:wine]; //fix/11a
-                            }
-                            else {
-                                [self.otherWines addObject:wine]; //fix/11a
-                            }
-                        }
-                    }
-                    
-                    [self.delegate wineryDidLoad:self];
-                }
-                else {
-                    [self.delegate wineryDidLoad:self];
-                    
-                    // Se ha producido un error al parsear el JSON
-                    NSLog(@"Error al parsear JSON: %@", error.localizedDescription);
-                }
-            }
-            else{
-                [self.delegate wineryDidLoad:self];
-                
-                // Error al descargar los datos del servidor
-                NSLog(@"Error al descargar datos del servidor: %@", error.localizedDescription);
-            }
-            
-        }] resume];
+       */
     }
-    
     return self;
 }
 
@@ -163,6 +94,76 @@
 
 -(SQAWineModel*) otherWineAtIndex: (NSInteger) index {
     return [self.otherWines objectAtIndex:index];
+}
+
+-(void)load {
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://static.keepcoding.io/baccus/wines.json"]];
+    [[[NSURLSession sharedSession] dataTaskWithRequest:request
+         completionHandler:^(NSData * data, NSURLResponse * response, NSError * error) {
+             
+             //NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+             //NSInteger statusCode = httpResponse.statusCode;
+             //if (statusCode >= 200 && statusCode < 300)
+             
+             if (data != nil) {
+                 // No ha habido error
+                 NSArray * JSONObjects = [NSJSONSerialization JSONObjectWithData:data
+                                                                         options:kNilOptions
+                                                                           error:&error];
+                 
+                 if (JSONObjects != nil) {
+                     // No ha habido error
+                     for (NSDictionary *dict in JSONObjects){
+                         SQAWineModel *wine = [[SQAWineModel alloc] initWithDictionary:dict];
+                         
+                         if (wine.name == nil) {
+                             continue;
+                         }
+                         
+                         // Añadimos al tipo adecuado
+                         if ([wine.type isEqualToString:RED_WINE_KEY]) {
+                             if (!self.redWines) {
+                                 self.redWines = [NSMutableArray arrayWithObject:wine];
+                             }
+                             else {
+                                 [self.redWines addObject:wine];
+                             }
+                         }
+                         else if ([wine.type isEqualToString:WHITE_WINE_KEY]) {
+                             if (!self.whiteWines) {
+                                 self.whiteWines = [NSMutableArray arrayWithObject:wine];
+                             }
+                             else {
+                                 [self.whiteWines addObject:wine];
+                             }
+                         }
+                         else {
+                             if (!self.otherWines) {
+                                 self.otherWines = [NSMutableArray arrayWithObject:wine]; //fix/11a
+                             }
+                             else {
+                                 [self.otherWines addObject:wine]; //fix/11a
+                             }
+                         }
+                     }
+                     
+                     [self.delegate wineryDidLoad:self];
+                 }
+                 else {
+                     [self.delegate wineryDidLoad:self];
+                     
+                     // Se ha producido un error al parsear el JSON
+                     NSLog(@"Error al parsear JSON: %@", error.localizedDescription);
+                 }
+             }
+             else{
+                 [self.delegate wineryDidLoad:self];
+                 
+                 // Error al descargar los datos del servidor
+                 NSLog(@"Error al descargar datos del servidor: %@", error.localizedDescription);
+             }
+             
+         }] resume];    
 }
 
 @end

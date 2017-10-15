@@ -34,7 +34,7 @@
 @end
 
 // ViewController
-@interface SQAWineryTableViewController : UITableViewController<WineryDelegate>
+@interface SQAWineryTableViewController : UITableViewController<UISplitViewControllerDelegate, WineryDelegate>
 
 #pragma mark - Properties
 

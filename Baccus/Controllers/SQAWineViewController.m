@@ -6,8 +6,6 @@
 //  Copyright © 2017 David López Rodriguez. All rights reserved.
 //
 
-#import "SQAWineModel.h"
-#import "SQAWineryTableViewController.h"
 #import "SQAWineViewController.h"
 #import "SQAWebViewController.h"
 
@@ -22,7 +20,7 @@
 -(id) initWithModel: (SQAWineModel *) model {
     if (self = [super initWithNibName:nil bundle:nil]) {
         _model = model;
-        self.title = model.name;
+        self.title = @"Wine Detail";
     }
     return self;
 }
@@ -42,89 +40,35 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    if (self.splitViewController.displayMode == UISplitViewControllerDisplayModePrimaryHidden){
+    if (self.splitViewController.collapsed == NO && self.splitViewController.displayMode == UISplitViewControllerDisplayModePrimaryHidden) {
         self.navigationItem.rightBarButtonItem = self.splitViewController.displayModeButtonItem;
-        self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone;
+        self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStylePlain;
     }
     
     [self syncModelWithView];
-    
-    //self.navigationController.navigationBar.backgroundColor = [UIColor colorWithRed:0.5 green:0 blue:0.13 alpha:1];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
 }
 
-#pragma mark - UISplitViewControllerDelegate
+/*
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
--(void)splitViewController:(UISplitViewController *)svc
-   willChangeToDisplayMode:(UISplitViewControllerDisplayMode)displayMode {
-    switch (displayMode) {
-        // The split view controller automatically decides the most appropriate
-        // display mode based on the device and the current app size.
-        case UISplitViewControllerDisplayModeAutomatic:
-            break;
-            
-        // The primary view controller is hidden.
-        case UISplitViewControllerDisplayModePrimaryHidden:
-            self.navigationItem.rightBarButtonItem = svc.displayModeButtonItem;
-            break;
-            
-        // The primary and secondary view controllers are displayed side-by-side onscreen.
-        case UISplitViewControllerDisplayModeAllVisible:
-            self.navigationItem.rightBarButtonItem = nil;
-            break;
-            
-        // The primary view controller is layered on top of the secondary
-        // view controller, leaving the secondary view controller partially visible.
-        case UISplitViewControllerDisplayModePrimaryOverlay:
-            break;
-    }
-}
+#pragma mark - WineryTableViewControllerDelegate
 
-// Asks the delegate to adjust the primary view controller and to incorporate the secondary view controller into the collapsed interface. Returning NO tells the split view controller to use its default behavior to try and incorporate the secondary view controller into the collapsed interface.
--(BOOL)splitViewController:(UISplitViewController *)splitViewController
-collapseSecondaryViewController:(UIViewController *)secondaryViewController
- ontoPrimaryViewController:(UIViewController *)primaryViewController {
-    // Always collapse detail view
-    return YES;
-}
-
-- (UIViewController *)splitViewController:(UISplitViewController *)splitViewController
-separateSecondaryViewControllerFromPrimaryViewController:(UIViewController *)primaryViewController{
-    SQAWineViewController *wineVC = nil;
-    SQAWineryTableViewController *wineryVC = nil;
+-(void) wineryTableViewController:(SQAWineryTableViewController *)wineryVC
+                    didSelectWine:(SQAWineModel *)wine {
+    self.model = wine;
     
-    if ([primaryViewController isKindOfClass:[UINavigationController class]]) {
-        for (UIViewController *controller in [(UINavigationController *)primaryViewController viewControllers]) {
-            if ([controller isKindOfClass:[SQAWineryTableViewController class]]) {
-                wineryVC = (SQAWineryTableViewController *)controller;
-            }
-            
-            if ([controller isKindOfClass:[SQAWineViewController class]]) {
-                wineVC = (SQAWineViewController *)controller;
-            }
-        }
-    }
-    
-    if (wineVC) {
-        [(UINavigationController *)primaryViewController popToRootViewControllerAnimated:NO];
-        
-        // Set delates
-        [wineryVC setDelegate:wineVC];
-        [splitViewController setDelegate:wineVC];
-        
-        UINavigationController *detailVC = [[UINavigationController alloc] initWithRootViewController:wineVC];
-        detailVC.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-        detailVC.navigationBar.backgroundColor = [UIColor colorWithRed:0.5
-                                                               green:0
-                                                                blue:0.13
-                                                               alpha:1];
-        return detailVC;
-    }
-    
-    return nil;
+    [self syncModelWithView];
 }
 
 #pragma mark - Actions
@@ -137,17 +81,15 @@ separateSecondaryViewControllerFromPrimaryViewController:(UIViewController *)pri
 
 #pragma mark - Helpers
 
--(void) syncModelWithView {
-    self.title = self.model.name;
-    
-    self.photoView.image = self.model.photo;
-    self.nameLabel.text = self.model.name;
-    self.companyLabel.text = self.model.wineCompanyName;
-    self.typeLabel.text = self.model.type;
-    self.originLabel.text = self.model.origin;
-    self.grapesLabel.text = [self arrayToString:self.model.grapes];
-    self.notesLabel.text = self.model.notes;
-    [self displayRating: self.model.rating];
+-(void) syncModelWithView {    
+    self.photoView.image = [self.model photo];
+    self.nameLabel.text = [self.model name];
+    self.companyLabel.text = [self.model wineCompanyName];
+    self.typeLabel.text = [self.model type];
+    self.originLabel.text = [self.model origin];
+    self.grapesLabel.text = [self arrayToString:[self.model grapes]];
+    self.notesLabel.text = [self.model notes];
+    [self displayRating: [self.model rating]];
     
     [self.notesLabel setNumberOfLines:0];
 }
@@ -179,25 +121,6 @@ separateSecondaryViewControllerFromPrimaryViewController:(UIViewController *)pri
     for (int i = 0; i < rating; i++) {
         [[self.ratingView objectAtIndex:i] setImage:image];
     }
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
-#pragma mark - WineryTableViewControllerDelegate
-
--(void) wineryTableViewController:(SQAWineryTableViewController *)wineryVC
-                    didSelectWine:(SQAWineModel *)wine {
-    self.model = wine;
-    
-    [self syncModelWithView];
 }
 
 @end

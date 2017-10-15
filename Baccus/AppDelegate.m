@@ -28,26 +28,28 @@
     // Creamos una UIWindows
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    SQAWineryModel *model = [[SQAWineryModel alloc] init];
+    SQAWineryModel *winery = [[SQAWineryModel alloc] init];
     
-    SQAWineryTableViewController *wineryVC = [[SQAWineryTableViewController alloc] initWithModel:model style:UITableViewStylePlain];
-    SQAWineViewController *wineVC = [[SQAWineViewController alloc] initWithModel:[wineryVC lastSelectedWine]];
-    
-    UINavigationController *sideVC = [[UINavigationController alloc] initWithRootViewController:wineryVC];
-    UINavigationController *mainVC = [[UINavigationController alloc] initWithRootViewController:wineVC];
-
-    [wineryVC setDelegate:wineVC];
+    SQAWineryTableViewController *wineryVC = [[SQAWineryTableViewController alloc] initWithModel:winery style:UITableViewStylePlain];
+        
+    SQAWineViewController *wineVC = [[SQAWineViewController alloc] initWithModel:nil];
+        
+    UINavigationController *masterVC = [[UINavigationController alloc] initWithRootViewController:wineryVC];
+    UINavigationController *detailVC = [[UINavigationController alloc] initWithRootViewController:wineVC];
     
     // Creamos el controlador
     UISplitViewController *splitVC = [[UISplitViewController alloc] init];
-    [splitVC setViewControllers:@[sideVC, mainVC]];
+    [splitVC setViewControllers:@[masterVC, detailVC]];
     
-    [splitVC setDelegate:wineVC];
-    [splitVC setPreferredDisplayMode:UISplitViewControllerDisplayModeAllVisible];
+    // Delegates
+    [wineryVC setDelegate:wineVC];
+    [splitVC setDelegate:wineryVC];
     
     self.window.rootViewController = splitVC;
-    self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+    [winery load];
+    
     return YES;
 }
 
@@ -116,11 +118,10 @@
     [[UILabel appearanceWhenContainedInInstancesOfClasses:@[[UITableViewHeaderFooterView class]]] setTextColor:[UIColor whiteColor]];
     
     // Botón de hacia atrás con la Elasticina del Profesor Saturnino Bacterio
-    UIImage *backBtn = [UIImage imageNamed:@"backBtn"];
-    backBtn = [backBtn resizableImageWithCapInsets:UIEdgeInsetsMake(0, 13, 0, 5)];
-    [[UIBarButtonItem appearance] setBackButtonBackgroundImage:backBtn
-                                                      forState:UIControlStateNormal
-                                                    barMetrics:UIBarMetricsDefault];
+    [[UIBarButtonItem appearance] setBackButtonBackgroundImage:[[UIImage imageNamed:@"backBtn"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 13, 0, 5)] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    
+    [[UINavigationBar appearance] setBackIndicatorImage:[[UIImage alloc] init]];
+    [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[[UIImage alloc] init]];
 }
 
 @end

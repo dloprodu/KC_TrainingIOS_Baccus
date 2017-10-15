@@ -15,13 +15,14 @@
 @class SQAWineModel;
 @class SQAWineryModel;
 
-// Delgado
+// Winery Delgate
 @protocol WineryDelegate <NSObject>
 
 -(void)wineryDidLoad: (SQAWineryModel *) winery;
 
 @end
 
+// Winery model
 @interface SQAWineryModel : NSObject
 
 #pragma mark - Properties
@@ -37,5 +38,7 @@
 -(SQAWineModel*) redWineAtIndex: (NSInteger) index;
 -(SQAWineModel*) whiteWineAtIndex: (NSInteger) index;
 -(SQAWineModel*) otherWineAtIndex: (NSInteger) index;
+
+-(void)load;
 
 @end

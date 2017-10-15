@@ -11,7 +11,7 @@
 
 @class SQAWineModel;
 
-@interface SQAWineViewController : UIViewController<UISplitViewControllerDelegate, WineryTableViewControllerDelegate>
+@interface SQAWineViewController : UIViewController<WineryTableViewControllerDelegate>
 
 #pragma mark - Properties
 

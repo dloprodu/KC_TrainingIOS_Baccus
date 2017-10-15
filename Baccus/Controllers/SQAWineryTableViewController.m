@@ -21,6 +21,7 @@
               style: (UITableViewStyle) style {
     if (self = [super initWithStyle:style]) {
         _model = model;
+        _model.delegate = self;
         self.title = @"Baccus";
     }
     return self;
@@ -173,7 +174,8 @@ titleForHeaderInSection:(NSInteger)section
 // In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
 - (void)tableView:(UITableView *)tableView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    SQAWineModel *wine = [self wineAtIndexPath:indexPath];
+    [self saveLastSelectedWineAtSection:indexPath.section row:indexPath.row];
+    SQAWineModel *wine = [self wineAtIndexPath:indexPath];    
     
     // A Boolean value indicating whether only one of the child view
     // controllers is displayed.
@@ -188,7 +190,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
         // Usually we send the message through delegate and a notification.
         // Send message to delegate
         [self.delegate wineryTableViewController:self didSelectWine:wine];
-        [self saveLastSelectedWineAtSection:indexPath.section row:indexPath.row];
     }
     
     NSNotification *notification = [NSNotification notificationWithName:NEW_WINE_NOTIFICATION_NAME
@@ -210,7 +211,86 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 #pragma mark - WineryDelegate
 
 -(void) wineryDidLoad:(SQAWineryModel *)winery {
-    [self.tableView reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+        
+        SQAWineModel *wine = [self lastSelectedWine];
+        
+        [self.delegate wineryTableViewController:self didSelectWine:wine];
+                   
+        NSNotification *notification = [NSNotification notificationWithName:NEW_WINE_NOTIFICATION_NAME
+                                                                    object:self
+                                                                  userInfo:@{WINE_KEY: wine}];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+    });    
+}
+
+#pragma mark - UISplitViewControllerDelegate
+
+-(void)splitViewController:(UISplitViewController *)svc
+   willChangeToDisplayMode:(UISplitViewControllerDisplayMode)displayMode {
+    UINavigationController *nvc = (UINavigationController *)[[svc viewControllers] lastObject];
+    
+    switch (displayMode) {
+            // The split view controller automatically decides the most appropriate
+            // display mode based on the device and the current app size.
+        case UISplitViewControllerDisplayModeAutomatic:
+            break;
+            
+            // The primary view controller is hidden.
+        case UISplitViewControllerDisplayModePrimaryHidden:
+            nvc.navigationItem.rightBarButtonItem = svc.displayModeButtonItem;
+            nvc.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone;
+            break;
+            
+            // The primary and secondary view controllers are displayed side-by-side onscreen.
+        case UISplitViewControllerDisplayModeAllVisible:
+            nvc.navigationItem.rightBarButtonItem = nil;
+            break;
+            
+            // The primary view controller is layered on top of the secondary
+            // view controller, leaving the secondary view controller partially visible.
+        case UISplitViewControllerDisplayModePrimaryOverlay:
+            break;
+    }
+}
+
+// Asks the delegate to adjust the primary view controller and to incorporate the secondary view controller into the collapsed interface. Returning NO tells the split view controller to use its default behavior to try and incorporate the secondary view controller into the collapsed interface.
+-(BOOL)splitViewController:(UISplitViewController *)splitViewController
+collapseSecondaryViewController:(UIViewController *)secondaryViewController
+ ontoPrimaryViewController:(UIViewController *)primaryViewController {
+    // Always collapse detail view
+    return YES;
+}
+
+- (UIViewController *)splitViewController:(UISplitViewController *)svc
+separateSecondaryViewControllerFromPrimaryViewController:(UIViewController *)primaryViewController{
+    SQAWineViewController *wineVC = nil;
+    SQAWineryTableViewController *wineryVC = nil;
+    
+    if ([primaryViewController isKindOfClass:[UINavigationController class]]) {
+        for (UIViewController *controller in [(UINavigationController *)primaryViewController viewControllers]) {
+            if ([controller isKindOfClass:[SQAWineryTableViewController class]]) {
+                wineryVC = (SQAWineryTableViewController *)controller;
+            }
+            
+            if ([controller isKindOfClass:[SQAWineViewController class]]) {
+                wineVC = (SQAWineViewController *)controller;
+            }
+        }
+    }
+    
+    if (wineVC == nil) {
+        wineVC = [[SQAWineViewController alloc] initWithModel:[wineryVC lastSelectedWine]];
+    }
+    
+    [(UINavigationController *)primaryViewController popToRootViewControllerAnimated:NO];
+    
+    // Set Delates
+    [wineryVC setDelegate:wineVC];
+    //[splitViewController setDelegate:wineVC];
+    
+    return [[UINavigationController alloc] initWithRootViewController:wineVC];
 }
 
 #pragma mark - Helpers
