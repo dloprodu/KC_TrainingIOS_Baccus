@@ -63,4 +63,6 @@
 -(id) initWithDictionary:(NSDictionary *) dic;
 
 -(NSDictionary*) proxyForJSON;
+
+-(void) photoWithBlock:(void (^)(UIImage *image))completionBlock;
 @end

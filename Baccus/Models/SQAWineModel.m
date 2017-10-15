@@ -10,6 +10,12 @@
 
 #define NO_RATING -1
 
+@interface SQAWineModel ()
+
+@property (nonatomic, readonly) BOOL isPhotoLoading;
+
+@end
+
 @implementation SQAWineModel
 
 // Cuando creas una propiedad de solo lectura e implementas un getter personalizado,
@@ -25,10 +31,6 @@
 -(UIImage *) photo {
     // Esto es bloqueante. Hay que usar blocks y Grand Central Dispatch (GCD) para
     // cargarlo en segundo plano.
-    
-    if (_photo == nil && _photoURL != nil) {
-        _photo = [UIImage imageWithData:[NSData dataWithContentsOfURL:self.photoURL]];
-    }
     
     return _photo;
 }
@@ -80,6 +82,8 @@
             grapes: (NSArray<NSString *> *) grapes {
     
     if (self = [super init]) {
+        _isPhotoLoading = NO;
+        
         _name = name;
         _type = type;
         _photoURL = photoURL;
@@ -139,6 +143,29 @@
 - (NSString *) description {
     return [NSString stringWithFormat:@"Name: %@\nCompany name: %@\nType: %@\nOrigin: %@", self.name, self.wineCompanyName, self.type, self.origin];
 };
+
+-(void) photoWithBlock:(void (^)(UIImage *image))completionBlock {
+    if (_photo == nil && _photoURL != nil && _isPhotoLoading == NO) {
+        _isPhotoLoading = YES;
+        dispatch_queue_t download = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        
+        __block UIImage *image = nil;
+        
+        dispatch_async(download, ^{
+            image = [UIImage imageWithData:[NSData dataWithContentsOfURL:self.photoURL]];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                _isPhotoLoading = NO;
+                _photo = image;
+                
+                completionBlock(self.photo);
+            });
+        });
+    }
+    else {        
+        completionBlock(self.photo);
+    }
+}
 
 #pragma mark - Helpers
 

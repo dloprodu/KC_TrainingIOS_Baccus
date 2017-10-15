@@ -138,13 +138,14 @@
         wineCell.detailTextLabel.font = [UIFont fontWithName:@"Valentina-Regular" size:16];
     }
     
+    wineCell.imageView.image = [UIImage imageNamed:@"cell_icon_bg.png"];
     // Sincronizamos modelo con vista (celda)
-    if (wine.photo) {
-        wineCell.imageView.image = wine.photo;
-    }
-    else {
-        wineCell.imageView.image = [UIImage imageNamed:@"cell_icon_bg.png"];
-    }
+    [wine photoWithBlock:^(UIImage *image) {
+        if (image != nil) {
+            wineCell.imageView.image = image;
+        }
+    }];
+    
     wineCell.textLabel.text = wine.name;
     wineCell.detailTextLabel.text = wine.wineCompanyName;
     
